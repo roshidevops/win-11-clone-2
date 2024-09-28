@@ -9,9 +9,9 @@ Welcome to the windows 11 clone
 ## <div style="margin-left:10px;">🎨 Features
 
 - **🌐 Chrome**: Surf the web just like in a real Chrome browser.
-- **📱 IPhone Clone: Iphone 15 pro website clone.
+- **📱 IPhone** Clone: Iphone 15 pro website clone.
 - **💻 VS Code**: Virtual Visual Studio Code environment.
-- **🪙 CryptoCurrency-Tracker: Trackers the Currecy price using API.
+- **🪙 CryptoCurrency-Tracker**: Trackers the Currecy price using API.
 - **📁 About Me**: Learn about ME.
 
 To get this project running on your local machine, follow these simple steps:
