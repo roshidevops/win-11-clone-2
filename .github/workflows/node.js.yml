@@ -39,7 +39,7 @@ jobs:
             sudo git clone https://github.com/shindodkar/windows-11-os-clone.git
 
             echo "📦 Updating application code..."
-            sudo cd "$APP_DIR"
+            cd "$APP_DIR"
             git reset --hard
             git pull origin main
 
