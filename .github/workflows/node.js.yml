@@ -1,3 +1,19 @@
+name: Deploy App via SSH
+
+on:
+  push:
+    branches:
+      - main  # Adjust if your default branch is not 'main'
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -6,28 +22,30 @@
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            set -e  # Exit on error
+            set -e  # Exit immediately if a command fails
 
-            echo "🔍 Checking for PM2..."
+            echo "🔍 Checking if PM2 is installed..."
             if ! command -v pm2 &> /dev/null; then
-              echo "⚙️ PM2 not found. Installing..."
+              echo "⚙️ PM2 not found. Installing PM2 globally..."
               sudo npm install -g pm2
             else
               echo "✅ PM2 is already installed."
             fi
 
-            APP_DIR="/home/ubuntu/calpoc/deploy/windows-11-os-clone"
+            DEPLOY_DIR="/home/ubuntu/calpoc/deploy"
+            APP_NAME="windows-11-os-clone"
+            APP_DIR="${DEPLOY_DIR}/${APP_NAME}"
 
-            echo "🧹 Cleaning up old PM2 process if it exists..."
+            echo "🧹 Cleaning up existing PM2 process if exists..."
             pm2 delete PHP-POC || true
 
             echo "📁 Preparing deployment directory..."
-            mkdir -p /home/ubuntu/calpoc/deploy
-            cd /home/ubuntu/calpoc/deploy
-            rm -rf windows-11-os-clone
+            mkdir -p "$DEPLOY_DIR"
+            cd "$DEPLOY_DIR"
+            rm -rf "$APP_NAME"
 
-            echo "📥 Cloning fresh code..."
-            git clone https://github.com/shindodkar/windows-11-os-clone.git
+            echo "📥 Cloning latest code..."
+            git clone https://github.com/shindodkar/${APP_NAME}.git
 
             echo "📦 Updating application code..."
             cd "$APP_DIR"
@@ -40,7 +58,7 @@
             echo "🏗️  Building the application..."
             npm run build || true
 
-            echo "🚀 Starting application in background with PM2..."
+            echo "🚀 Starting application in background using PM2..."
             pm2 serve build 3000 --name "PHP-POC" --spa
 
-            echo "✅ Deployment complete. App is running in the background."
+            echo "✅ Deployment complete. Application is live."
