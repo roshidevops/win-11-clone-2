@@ -30,7 +30,8 @@ jobs:
             pm2 delete PHP-POC || true
 
             echo "📁 Ensuring deployment directory exists..."
-            cd /home/ubuntu/calpoc/deploy
+            mkdir -p /home/${{ github.event.inputs.ec2_user }}/calpoc/deploy
+            cd /home/${{ github.event.inputs.ec2_user }}/calpoc/deploy
             rm -rf *
 
             echo "📥 Cloning fresh code..."
