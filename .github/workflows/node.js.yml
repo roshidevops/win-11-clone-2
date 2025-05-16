@@ -36,10 +36,10 @@ jobs:
             rm -rf *
 
             echo "📥 Cloning fresh code..."
-            git clone https://github.com/shindodkar/windows-11-os-clone.git
+            sudo git clone https://github.com/shindodkar/windows-11-os-clone.git
 
             echo "📦 Updating application code..."
-            cd "$APP_DIR"
+            sudo cd "$APP_DIR"
             git reset --hard
             git pull origin main
 
