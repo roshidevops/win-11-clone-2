@@ -31,7 +31,7 @@ jobs:
 
             echo "📁 Ensuring deployment directory exists..."
             sudo mkdir -p /home/ubuntu/calpoc/deploy
-            sudo chown ubuntu:ubuntu /home/ubuntu/calpoc
+            sudo chown ubuntu:ubuntu /home/ubuntu/calpoc/deploy
             cd /home/${{ github.event.inputs.ec2_user }}/calpoc/deploy
             rm -rf *
 
