@@ -3,12 +3,12 @@ name: Deploy App via SSH
 on:
   push:
     branches:
-      - main # Change to 'main' if your default branch is main
+      - main # Ensure this matches your default branch
 
 jobs:
   deploy:
     name: Deploy to EC2
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Correct runner spec
 
     steps:
       - name: Checkout code
@@ -22,21 +22,20 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            set -e  # Exit immediately on error
+            set -e  # Exit on error
 
             APP_DIR="/home/ubuntu/calpoc/deploy/windows-11-os-clone"
 
             echo "🧹 Cleaning up old PM2 process if it exists..."
             pm2 delete PHP-POC || true
 
-            echo "📁 Ensuring deployment directory exists..."
-            sudo mkdir -p /home/ubuntu/calpoc/deploy
-            sudo chown ubuntu:ubuntu /home/ubuntu/calpoc/deploy
-            cd /home/${{ github.event.inputs.ec2_user }}/calpoc/deploy
-            rm -rf *
+            echo "📁 Preparing deployment directory..."
+            mkdir -p /home/ubuntu/calpoc/deploy
+            cd /home/ubuntu/calpoc/deploy
+            rm -rf windows-11-os-clone
 
             echo "📥 Cloning fresh code..."
-            sudo git clone https://github.com/shindodkar/windows-11-os-clone.git
+            git clone https://github.com/shindodkar/windows-11-os-clone.git
 
             echo "📦 Updating application code..."
             cd "$APP_DIR"
@@ -45,7 +44,7 @@ jobs:
 
             echo "📦 Installing dependencies..."
             npm install --silent
-           
+
             echo "🏗️  Building the application..."
             npm run build || true
 
