@@ -1,4 +1,4 @@
-# windows-11-os-clone ci/cd by rohit
+# windows-11-os-clone ci/cd by rohit shakya
 Welcome to the windows 11 clone
 <div>
 <img src="https://github.com/user-attachments/assets/1551a9c5-ac4e-4ee5-a466-271150519bbc"/>
